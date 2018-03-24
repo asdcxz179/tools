@@ -60,7 +60,7 @@ class curl_tools extends tools{
 	    curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_folder."/".$this->cookie);
 	    if($this->post){
 	        curl_setopt($ch, CURLOPT_POST, 1); 
-	        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->data));
+	        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->post));
 	    }
 	    $contents = curl_exec($ch);
 	    if(mb_detect_encoding($contents)!='UTF-8'){
@@ -68,7 +68,7 @@ class curl_tools extends tools{
 	    }
 	    $this->_logs($this->log_file,'-----'.$this->cookie.'------');
 	    $this->_logs($this->log_file,'URL: '.$this->url);
-	    $this->_logs($this->log_file,'DATA: '.$this->data);
+	    $this->_logs($this->log_file,'DATA: '.$this->post);
 	    if(curl_error($ch)!=''){
 	    	$this->curl_error = curl_error($ch);
 	    	$this->curl_errno = curl_errno($ch);
