@@ -9,6 +9,7 @@ class curl_tools extends tools{
 	public $curl_timeout;
 	public $url;
 	public $post;
+	public $data;
 	public $cookie;
 	public $useragent;
 	public $encoding;
@@ -61,11 +62,14 @@ class curl_tools extends tools{
 	    if($this->post){
 	        curl_setopt($ch, CURLOPT_POST, 1); 
 	        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->post));
+	        $this->data = http_build_query($this->post);
+	    }else{
+	    	$this->data = '';
 	    }
 	    $contents = curl_exec($ch);
 	    $this->_logs($this->log_file,'-----'.$this->cookie.'------');
 	    $this->_logs($this->log_file,'URL: '.$this->url);
-	    $this->_logs($this->log_file,'DATA: '.http_build_query($this->post));
+	    $this->_logs($this->log_file,'DATA: '.$this->data);
 	    if(curl_error($ch)!=''){
 	    	$this->curl_error = curl_error($ch);
 	    	$this->curl_errno = curl_errno($ch);
