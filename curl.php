@@ -9,13 +9,13 @@ class curl_tools extends tools{
 	public $curl_timeout;
 	public $url;
 	public $post;
-	public $data;
 	public $cookie;
 	public $useragent;
 	public $encoding;
 	public $log_file;
 	private $curl_error;
 	private $curl_errorno;
+	public $cookie_file;
 
 	public function __construct(){
 		parent::__construct();
@@ -43,7 +43,7 @@ class curl_tools extends tools{
 		$this->log_file = $this->cookie.date("YmdHis");
 		$ch = curl_init();
 	    curl_setopt($ch, CURLOPT_HTTPHEADER, $this->header);
-	    curl_setopt($ch, CURLOPT_HEADER,0);
+	    curl_setopt($ch, CURLOPT_HEADER,1);
 	    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 	    curl_setopt($ch, CURLOPT_URL, $this->url);
@@ -56,19 +56,21 @@ class curl_tools extends tools{
 	    curl_setopt($ch, CURLOPT_FORBID_REUSE, TRUE);
 	    curl_setopt($ch, CURLOPT_TIMEOUT, $this->curl_timeout);
 	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	    curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_folder."/".$this->cookie);
-	    curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_folder."/".$this->cookie);
+	    if($this->cookie_file){
+	    	curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_file);
+	    	curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_file);	
+	    }else{
+	    	curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_folder."/".$this->cookie);
+	    	curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_folder."/".$this->cookie);	
+	    }
 	    if($this->post){
 	        curl_setopt($ch, CURLOPT_POST, 1); 
 	        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->post));
 	    }
 	    $contents = curl_exec($ch);
-	    if(mb_detect_encoding($contents)!='UTF-8'){
-	    	$contents = iconv("big5", "UTF-8", $contents);	
-	    }
 	    $this->_logs($this->log_file,'-----'.$this->cookie.'------');
 	    $this->_logs($this->log_file,'URL: '.$this->url);
-	    $this->_logs($this->log_file,'DATA: '.$this->post);
+	    $this->_logs($this->log_file,'DATA: '.http_build_query($this->post));
 	    if(curl_error($ch)!=''){
 	    	$this->curl_error = curl_error($ch);
 	    	$this->curl_errno = curl_errno($ch);
@@ -82,6 +84,10 @@ class curl_tools extends tools{
 	    return $contents;
 	}
     
+	public function get_cookie_file(){
+		return $this->cookie_folder."/".$this->cookie;
+	}
+
 }
 
 ?>
