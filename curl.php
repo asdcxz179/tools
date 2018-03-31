@@ -43,26 +43,21 @@ class curl_tools extends tools{
 		$this->log_file = $this->cookie.date("YmdHis");
 		$ch = curl_init();
 	    curl_setopt($ch, CURLOPT_HTTPHEADER, $this->header);
-	    curl_setopt($ch, CURLOPT_HEADER,1);
+	    curl_setopt($ch, CURLOPT_HEADER,0);
 	    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 	    curl_setopt($ch, CURLOPT_URL, $this->url);
 	    curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
 	    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-	    curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE); 
 	    curl_setopt($ch, CURLOPT_USERAGENT, $this->useragent);
 	    curl_setopt($ch, CURLOPT_ENCODING, $this->encoding);
 	    curl_setopt($ch, CURLOPT_FRESH_CONNECT, TRUE);
 	    curl_setopt($ch, CURLOPT_FORBID_REUSE, TRUE);
 	    curl_setopt($ch, CURLOPT_TIMEOUT, $this->curl_timeout);
 	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	    if($this->cookie_file){
-	    	curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_file);
-	    	curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_file);	
-	    }else{
-	    	curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_folder."/".$this->cookie);
-	    	curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_folder."/".$this->cookie);	
-	    }
+    	curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_folder."/".$this->cookie);
+    	curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_folder."/".$this->cookie);	
+	    
 	    if($this->post){
 	        curl_setopt($ch, CURLOPT_POST, 1); 
 	        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->post));
