@@ -41,7 +41,7 @@ class curl_tools extends tools{
 		if(!is_dir($this->cookie_folder)){
 			mkdir($this->cookie_folder);
 		}
-		$this->log_file = $this->cookie.date("YmdHis");
+		$this->log_file = $this->cookie.date("YmdHis")."_".rand(0,9);
 		$ch = curl_init();
 	    curl_setopt($ch, CURLOPT_HTTPHEADER, $this->header);
 	    curl_setopt($ch, CURLOPT_HEADER,0);
