@@ -25,8 +25,10 @@ class tools{
 			$data = json_encode($data);
 		}
 
-		$file = fopen($this->logs_folder."/".$filename, 'a+');
-		fwrite($file, '['.date('Y-m-d H:i:s').']'.$data.PHP_EOL);
+		error_log('['.date('Y-m-d H:i:s').']'.$data.PHP_EOL,3,$this->logs_folder."/".$filename);
+
+		// $file = fopen($this->logs_folder."/".$filename, 'a+');
+		// fwrite($file, '['.date('Y-m-d H:i:s').']'.$data.PHP_EOL);
 	}
 
 }
