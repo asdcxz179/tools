@@ -17,9 +17,12 @@
 	  public function run(){
 	  	echo $this->times.PHP_EOL;
 	   	$this->data = $this->curl->curl();
-	   	
 	   	$this->process_data();
 	   	$this->setGarbage();
+	  }
+
+	  public function getResult(){
+	  	return $this->data;
 	  }
 
 	  public function process_data(){
@@ -43,6 +46,7 @@
 	$total = 0;
 	$pool = new Pool($pool_limit);
 	$pool_list = [];
+	echo count($link).PHP_EOL;
 	foreach ($link as $k => $v) {
 		$curl->url = "https://tw.stock.yahoo.com".$v;
 		$pool_list[] = new curl_thread($curl,$k);	
@@ -51,7 +55,13 @@
 	foreach ($pool_list as $task) {
 		$pool->submit($task);
 	}
+	$return = [];
 	$pool->shutdown();
+	foreach ($pool_list as $task) {
+		print_r("task:".$task->getResult());
+		$return[] = $task->getResult();
+	}
+	print_r($return);
 	$pool->collect(function($checkingTask){
 		  return $checkingTask->isGarbage();
 		});
