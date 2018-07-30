@@ -28,7 +28,7 @@ class curl_tools extends tools{
 	                    'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
 	                    'Connection: keep-alive'
 	                   ];
-	    $this->cookie_folder = "C:/xampp/htdocs/tools/cookie";
+	    $this->cookie_folder = __DIR__."/cookie";
 	    $this->curl_timeout = 30000;
 	    $this->url = "https://www.google.com.tw";
 	    $this->cookie = 'google';

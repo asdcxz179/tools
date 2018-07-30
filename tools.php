@@ -5,7 +5,7 @@ class tools{
 	public $logs_folder;
 
 	public function __construct(){
-		$this->logs_folder = "C:/xampp/htdocs/tools/logs";
+		$this->logs_folder = __DIR__."/logs";
 	}
 
 	public function _echo($str){
