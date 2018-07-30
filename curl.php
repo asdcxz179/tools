@@ -61,7 +61,11 @@ class curl_tools extends tools{
 	    
 	    if($this->post){
 	        curl_setopt($ch, CURLOPT_POST, 1); 
-	        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->post));
+	        if(is_array($this->post)){
+	        	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->post));	
+	        }else{
+	        	curl_setopt($ch, CURLOPT_POSTFIELDS, $this->post);
+	        }
 	        $this->data = http_build_query($this->post);
 	    }else{
 	    	$this->data = '';
@@ -78,8 +82,8 @@ class curl_tools extends tools{
 	    }
 	    $this->_logs($this->log_file,$contents);
 	    $this->_logs($this->log_file,'-----------------');
-	    
 	    curl_close($ch);
+	    $this->post = '';
 	    return $contents;
 	}
     
