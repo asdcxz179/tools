@@ -63,10 +63,12 @@ class curl_tools extends tools{
 	        curl_setopt($ch, CURLOPT_POST, 1); 
 	        if(is_array($this->post)){
 	        	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->post));	
+	        	$this->data = http_build_query($this->post);
 	        }else{
 	        	curl_setopt($ch, CURLOPT_POSTFIELDS, $this->post);
+	        	$this->data = $this->post;
 	        }
-	        $this->data = http_build_query($this->post);
+	        
 	    }else{
 	    	$this->data = '';
 	    }
